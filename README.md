@@ -1,6 +1,6 @@
 # Gym app - Flutter
 
-Small exercise app developed for Human–computer interaction course. (FIC, 19-20)
+Small exercise app developed for Human–computer interaction course.
 
 No longer working due to brokes dependencies
 ## Tech - Deprecated
@@ -13,6 +13,10 @@ No longer working due to brokes dependencies
 - Responsive design
 - In app video playback
 - Exercise routine timer
+## Docs
+
+There are class and sequence diagrams explaining the flow of the application
+
 ## Authors
 
 - [@beltranaceves](https://www.github.com/beltranaceves)
