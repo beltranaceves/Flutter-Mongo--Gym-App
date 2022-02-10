@@ -1,0 +1,96 @@
+@startuml
+
+folder views{
+file MasterDetail.{
+class MasterDetailContainer{
++build(): Widget
+}
+}
+file ListViewWorkouts.{
+class ListViewDB{
++build(): Widget
++errorPage()
++createListView(AsyncSnapshot): Widget
++getImageFromDocument(Workout): Image
+}
+}
+
+file ListViewExercises.{
+class ListViewExercises{
++build(): Widget
++errorPage()
++createViewExercise(AsyncSnapshot,Workout): Widget
++getImageFromDocument(document, dimensions): Image
+-navigateExercises(exercise): Widget
+}
+class CountDownTimer{
++workoutToReps(): List<Dynamic>
++workoutToNames(): List<Dynamic>
++createState(): State<CountDownTimer>
+}
+}
+}
+
+folder repository{
+file repository.{
+class Repository{
++fetchAllWorkouts(): Future<List<Workout>>
++fetchExercises(): Future<List<Exercises>>
+
+}
+}
+}
+
+folder networkProvider{
+file mongo.{
+class DatabaseHelper{
++getdb(): Future<Db>
++getWorkoutData(): Future<List<Workout>>
++getExerciseData(): Future<List<Exercise>>
+}
+} 
+}
+
+folder model{
+file workout{
+class Workout{
++getName(): String
++getDate(): String
++getImage(): String
+}
+}
+file exercise{
+class exercise{
++getName(): String
++getImage(): String
+}
+}
+}
+
+folder bloc{
+file workoutBloc.{
+class WorkoutBloc{
++fetchAllWorkouts():Future<bool>
++dispose()
+}
+}
+file exerciseBloc.{
+class ExerciseBloc{
++fetchExercises():Future<bool>
++dispose()
+}
+}
+}
+CountDownTimer->ListViewExercises
+MasterDetailContainer -down-> ListViewDB
+MasterDetailContainer -down->ListViewExercises
+ListViewDB -down-> WorkoutBloc
+WorkoutBloc -down-> Repository
+Repository -down-> DatabaseHelper
+DatabaseHelper-down->Workout
+ListViewDB-down->Workout
+DatabaseHelper -down->exercise
+ListViewExercises -down->exercise
+ListViewExercises -down->ExerciseBloc
+ExerciseBloc-down-> Repository
+@enduml

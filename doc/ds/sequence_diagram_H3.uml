@@ -1,0 +1,12 @@
+@startuml
+
+actor "User" as user
+participant "__:ListViewExercises" as view1
+participant "__:CountDownTimer" as ctd
+participant "__:Workout" as wo
+
+user->view1:tap FAB
+view1->ctd:build(workout)
+ctd->wo:.exercises
+ctd<--wo:exercises
+@enduml

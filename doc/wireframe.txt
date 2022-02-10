@@ -1,0 +1,148 @@
+@startuml
+(*) --> "
+{{
+salt
+{
+Loading workouts
+}
+}}
+" as main
+
+main -right-> "
+{{
+salt
+{
+Error message
+}
+}}
+" as loadingerror
+
+(*) --> "
+{{
+salt
+{#
+Loading| Waiting for selection | *
+}
+}}
+" as mainlandscape
+
+mainlandscape-left->loadingerror
+
+main--> "
+{{
+salt
+{
+{/ TITLE}
+
+Name | <&camera-slr>
+  --|--|--
+Name | <&camera-slr>
+  --|--|--
+Name | <&camera-slr>
+  --|--|--
+Name | <&camera-slr>
+  --|--|--
+[<&caret-left>]|[<&media-record>]|[<&media-stop>]
+}
+}}
+" as loaded
+
+mainlandscape-down->"
+{{
+salt
+{#
+[<&caret-left>] | Title | [<&media-play>]
+[<&media-record>] | Name-<&camera-slr> | Waiting for selection
+[<&media-stop>]| Name-<&camera-slr> | 
+}
+}}
+" as loadedlandscape
+
+loaded-down->"
+{{
+salt
+{
+
+Loading exercises
+}
+}}
+" as loadinge
+loadinge -right-> "
+{{
+salt
+{
+Error message
+}
+}}
+" as loadingeerror
+
+loadedlandscape-left->loadingeerror
+
+loadinge-down->"
+{{
+salt
+{
+{/<&action-undo>| Workout Title}|[<&media-play>]
+<&camera-slr>
+  ------
+
+|^Description^
+  ------
+|^Exercise list^
+  ------
+[<&caret-left>]|[<&media-record>]|[<&media-stop>]
+}
+}}
+" as loadede
+loadede-up->loaded
+loadede-down->"
+{{
+salt
+{
+{/<&action-undo>| Exercise Title}
+<&camera-slr>
+  ------
+
+|^Description^
+  ------
+[<&media-play>Video]
+  ------
+}
+}}
+" as exercisedetail
+
+loadede->"
+{{
+salt
+{
+{ |Exercise Title|}
+<&camera-slr>
+  ------
+Toggle timer
+  ------
+Next
+  ------
+}
+}}
+" as countdown
+
+loadedlandscape->"
+{{
+salt
+{#
+[<&caret-left>] | Title | Workout Name|[<&media-play>]
+[<&media-record>] | Name-<&camera-slr> | Description
+[<&media-stop>]| Name-<&camera-slr> | Exercises
+}
+}}
+" as loadedelandscape
+
+loadedelandscape->countdown
+countdown->loadedelandscape
+loadedelandscape->exercisedetail
+exercisedetail->loadedelandscape
+loadedlandscape-left->countdown
+countdown->loadedlandscape
+countdown->loadede
+exercisedetail-up->loadede
+@enduml

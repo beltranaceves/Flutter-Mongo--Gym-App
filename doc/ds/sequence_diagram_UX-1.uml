@@ -1,0 +1,40 @@
+@startuml
+
+participant "__:MasterDetailContainer" as main
+participant "__:MediaQuery" as media
+participant "__:ListViewWorkouts" as view1
+participant "__:WorkoutBloc" as bloc
+participant "Repository" as repo
+participant "DatabaseHelper" as dbh
+participant "MongoDart" as mongo
+participant "Workout" as wo
+participant "PublishSubject<>" as ps
+main->media:.size.shortestSide
+main<--media:shortestSide
+main->media:.size.orientation
+main<--media:orientation
+main->view1:build()
+view1->bloc:<<async>>fetchAllWorkouts()
+bloc->dbh:getWorkoutData()
+dbh->mongo: open()
+
+group failure
+view1<--dbh: exception
+view1->view1:errorPage()
+end
+group success
+dbh <-- mongo:
+dbh->wo:<<instantiate>>
+dbh<--wo:
+dbh->mongo: close()
+dbh <-- mongo: 
+bloc<--dbh: workoutList
+bloc->ps:sink.add(workout)
+bloc<--ps:
+view1<-bloc:true
+view1->bloc:allWorkouts
+bloc->ps:stream
+view1<--ps:
+view1-->view1:createListView()
+end
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+actor "User" as user
+participant "__:MainPage" as main
+participant "__:ListViewExercises" as view1
+participant "__:ExerciseBloc" as bloc
+participant "Repository" as repo
+participant "DatabaseHelper" as dbh
+participant "MongoDart" as mongo
+participant "PublishSubject<>" as ps
+participant "Dart UrlLauncher" as launcher
+participant "Exercise" as exercise
+
+
+user->main: itemSelected(item)
+main->view1:build(workout)
+view1->bloc:<<async>>fetchExercises(workout)
+bloc->repo:fetchExercises(workout)
+repo->dbh:getExerciseData(workout)
+dbh->mongo: open()
+
+group failure
+view1<--dbh: exception
+view1->view1:errorPage()
+end
+group success
+dbh <-- mongo:
+dbh->exercise: <<instantiate>>
+dbh<--exercise:
+dbh->mongo: close()
+dbh <-- mongo: 
+bloc<--dbh: exerciseList
+bloc->ps:sink.add(exercises)
+bloc<--ps:
+view1<-bloc:true
+view1->bloc:.exercises
+bloc->ps:.stream
+view1<--ps:stream
+view1->view1:createViewExercise
+user->view1: tap(exerciseEntry)
+view1->view1: navigateExercises(exerciseEntry)
+view1->exercise: .name
+view1<--exercise: name
+view1->exercise: .image
+view1<--exercise: image
+view1->exercise: .description
+view1<--exercise: description
+view1->exercise: .video
+view1<--exercise: video
+user->view1:tap(video_button)
+view1->launcher:launch(video_url)
+end
+@enduml
