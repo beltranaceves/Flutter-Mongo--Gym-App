@@ -1,6 +1,6 @@
 # Gym app - Flutter
 
-Small exercise app developed for Human–computer interaction course.
+Small exercise app developed for Human–computer interaction course. (FIC, 19-20)
 
 No longer working due to brokes dependencies
 ## Tech - Deprecated
