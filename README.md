@@ -13,7 +13,7 @@ No longer working due to brokes dependencies
 - Responsive design
 - In app video playback
 - Exercise routine timer
-## Author
+## Authors
 
 - [@beltranaceves](https://www.github.com/beltranaceves)
 - [@danielquinti](https://www.github.com/danielquinti)
